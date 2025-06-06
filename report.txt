@@ -1,0 +1,25 @@
+--- Hybrid MLP-CPH Model Training Report ---
+Dataset Shape (after cleaning): (1856, 27)
+Target Event Column: 'Cardiovascular_mortality'
+Time to Event Column: 'Time_to_CVD_mortality_days'
+
+--- Stage 1: Risk Score Model (MLP) ---
+  Features used: 1
+  Hyperparameters: Learning Rate=0.001, Epochs=50, HiddenLayers=[64, 32]
+
+--- Stage 2: Cox Proportional Hazards (CPH) Model ---
+  Features used (incl. DL score): 3
+  Linear CPH Features: ['Male_gender', 'Statins_and_fibrates']
+  CPH L2 Penalizer: 0.1
+
+--- CPH Model Summary (Hazard Ratios) ---
+                              coef  exp(coef)  se(coef)  coef lower 95%  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  cmp to         z         p   -log2(p)
+covariate                                                                                                                                                               
+MLP_Risk_Score_Covariate  1.289879   3.632349  0.331636        0.639886        1.939873             1.896264             6.957869     0.0  3.889449  0.000100  13.280915
+Male_gender               0.168932   1.184040  0.078895        0.014302        0.323563             1.014405             1.382043     0.0  2.141244  0.032254   4.954361
+Statins_and_fibrates      0.172139   1.187843  0.087008        0.001607        0.342671             1.001609             1.408705     0.0  1.978437  0.047879   4.384451
+
+--- Final Model Performance on Test Set ---
+  Concordance Index (C-index): 0.5962
+
+--- End of Report ---
