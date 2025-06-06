@@ -867,7 +867,7 @@ class DynamicCVDApp:
             
             cph_features_in_model = self.trained_cph_linear_feature_names + [self.DL_RISK_SCORE_COL_NAME]
             
-            report_lines.append(f"  Features used (incl. DL score): {len(cph_features_in_model)}")
+            report_lines.append(f"  Features used (incl. MLP score): {len(cph_features_in_model)}")
             
             report_lines.append(f"  Linear CPH Features: {self.trained_cph_linear_feature_names if self.trained_cph_linear_feature_names else 'None'}")
             
