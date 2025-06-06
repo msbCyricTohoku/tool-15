@@ -1125,9 +1125,11 @@ class DynamicCVDApp:
             
             times_to_eval = np.linspace(valid_times[0], valid_times[1], 100)
             
-            auc, _ = cumulative_dynamic_auc(y_train_sksurv, y_test_sksurv, risk_scores_test, times_to_eval)
-            
-            ax2.plot(times_to_eval, auc, marker="o", color=STYLE_CONFIG["accent_color"], markersize=4, linestyle='-')
+            times, auc = cumulative_dynamic_auc(
+                y_train_sksurv, y_test_sksurv, risk_scores_test, times_to_eval
+            )
+
+            ax2.plot(times, auc, marker="o", color=STYLE_CONFIG["accent_color"], markersize=4, linestyle='-')
             
             ax2.set_title("Time-Dependent Area Under ROC", color=STYLE_CONFIG["fg_header"])
             
@@ -1141,7 +1143,10 @@ class DynamicCVDApp:
             
             ax2.tick_params(colors=STYLE_CONFIG["fg_text"])
             
-            self.log_training_message(f"Integrated AUC over time: {np.trapezoid(auc, times_to_eval) / (times_to_eval[-1] - times_to_eval[0]):.4f}")
+            integrated_auc = np.trapz(auc, times) / (times[-1] - times[0])
+            self.log_training_message(
+                f"Integrated AUC over time: {integrated_auc:.4f}"
+            )
 
         except Exception as e:
             ax2.text(0.5, 0.5, f"Could not generate AUC plot:\n{e}", ha='center', va='center', color='red')
